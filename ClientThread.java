@@ -9,6 +9,7 @@ public class ClientThread extends Thread{
 	private String message;
 	
 	ClientThread (Socket socket) {
+		this.message = null;
 		this.socket = socket;
 	}
 	 	
@@ -23,7 +24,7 @@ public class ClientThread extends Thread{
 				 output.flush();
 				 message = null;
 			 }
-		} catch (IOException | InterruptedException e) {
+		} catch (Exception e) {
 			e.printStackTrace();
 		}
 	}
