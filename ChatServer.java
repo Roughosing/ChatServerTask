@@ -7,16 +7,16 @@ public class ChatServer {
 
 	private static String serverIP;
 	private static int serverPort;
-	private static List<Connection> members;
+	private static List<Client> members;
 	private static List<ChatRoom> chatRooms;
-	private static int index;
+	public static int index;
 
 	public static void main(String[] args){
 
 		System.out.println("Server is Running");
 		ServerSocket socket;
 		chatRooms = new ArrayList<ChatRoom>();
-		members = new ArrayList<Connection>();
+		members = new ArrayList<Client>();
 		try {
 			socket = new ServerSocket(22);
 			setServerIP(InetAddress.getLocalHost().getHostAddress());
@@ -25,10 +25,10 @@ public class ChatServer {
 			System.out.println("My Port : " + socket.getLocalPort());
 			while(true){
 				Socket connect = socket.accept();
-				System.out.println("Client '" + connect.getInetAddress() + "' connected\n");
-				Connection connection = new Connection(connect);
-				connection.start();
-				members.add(connection);
+				System.out.println("Client '" + connect.getInetAddress() + "' connected");
+				Client newClient = new Client(connect);
+				newClient.start();
+				members.add(newClient);
 			}
 		} catch (IOException e) {
 			e.printStackTrace();
@@ -49,6 +49,10 @@ public class ChatServer {
 
 	public static int getPort() {
 		return serverPort;
+	}
+	
+	public static List<Client> getMembers(){
+		return members;
 	}
 
 	public static ChatRoom findRoom(String name){
