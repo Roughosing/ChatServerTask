@@ -33,5 +33,4 @@ public class ChatRoom {
 	public Map<Integer, Client> getMembers(){
 		return this.members;
 	}
-	
 }

@@ -2,6 +2,7 @@
 import java.io.*;
 import java.util.*;
 import java.net.*;
+import java.util.logging.*;
 
 public class ChatServer {
 
@@ -26,9 +27,11 @@ public class ChatServer {
 			while(true){
 				Socket connect = socket.accept();
 				System.out.println("Client '" + connect.getInetAddress() + "' connected");
-				Client newClient = new Client(connect);
-				newClient.start();
+				BufferedReader reader = new BufferedReader (new InputStreamReader(connect.getInputStream()));
+				BufferedWriter output = new BufferedWriter (new OutputStreamWriter(connect.getOutputStream()));
+				Client newClient = new Client(connect, reader, output);
 				members.add(newClient);
+				newClient.start();
 			}
 		} catch (IOException e) {
 			e.printStackTrace();
@@ -71,6 +74,5 @@ public class ChatServer {
 		ChatRoom newRoom = new ChatRoom(index, name.trim());
 		chatRooms.add(newRoom);
 		return newRoom;
-
 	}
 }
