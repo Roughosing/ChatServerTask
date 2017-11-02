@@ -5,7 +5,6 @@ import java.net.*;
 public class Client extends Thread {
 
 	private Socket socket;
-	//private ClientThread writer; 
 	private String clientName;
 	private int id;
 	private BufferedWriter output;
@@ -16,8 +15,6 @@ public class Client extends Thread {
 		this.socket = socket;
 		this.output = output;
 		this.reader = reader;
-		//writer = new ClientThread(this.socket);
-		//writer.start();
 		joinedRooms = new HashMap<Integer, ChatRoom>();
 	}
 
@@ -32,6 +29,7 @@ public class Client extends Thread {
 					type = decodeMessage(arr);
 					index++;
 				}
+				System.out.println(type);
 				switch (type) {
 				case 1:
 					// join/create chat room
@@ -71,7 +69,6 @@ public class Client extends Thread {
 					String messages = castMessage(arr);
 					for(Client Client : myChatRoom.getMembers().values()){
 						Client.output.write(messages);
-						output.flush();
 					}
 					break;
 				case 5:
@@ -85,6 +82,7 @@ public class Client extends Thread {
 					sendErrorMessage();
 					break;
 				}
+				output.flush();
 			}
 		} catch (Exception e) {
 			e.printStackTrace();
@@ -97,16 +95,12 @@ public class Client extends Thread {
 			+ "\nPort: " + socket.getLocalPort()  
 			+ "\nStudentID: 14316190";
 		output.write(HELOtext);
-		output.flush();
-		//writer.setMessage(HELOtext);
 	}
 
 	private void sendErrorMessage() throws IOException {
 		String outputMessage = "ERROR_CODE: 0"
 			+ "\nERROR_DESCRIPTION: Error Occured\n\n";
 		output.write(outputMessage);
-		output.flush();
-		//writer.setMessage(outputMessage);
 	}
 
 	private void sendLeaveMessage(ChatRoom roomLeave, int leaveId) throws IOException {
@@ -116,8 +110,6 @@ public class Client extends Thread {
 			+ "\nCLIENT_NAME: " + clientName
 			+ "\nMESSAGE: " + clientName + " has left this chatroom.\n\n";
 		output.write(outputMessage);
-		output.flush();
-		//writer.setMessage(outputMessage);
 	}
 
 	private void sendJoinedMessage(ChatRoom roomJoin, int joinId) throws IOException {
@@ -130,8 +122,6 @@ public class Client extends Thread {
 			+ "\nCLIENT_NAME: " + clientName 
 			+ "\nMESSAGE: " + clientName + " has joined this chatroom.\n\n";
 		output.write(outputMessage);
-		output.flush();
-		//writer.setMessage(outputMessage);
 	}
 
 	private String castMessage(String[][] arr) {
