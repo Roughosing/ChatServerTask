@@ -71,6 +71,7 @@ public class Client extends Thread {
 					String messages = castMessage(arr);
 					for(Client Client : myChatRoom.getMembers().values()){
 						Client.output.write(messages);
+						output.flush();
 					}
 					break;
 				case 5:
