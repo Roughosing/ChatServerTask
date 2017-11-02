@@ -27,7 +27,7 @@ public class Client extends Thread {
 				String[][] arr = new String[4][2];
 				int type = -1, index = 0;
 				while (type == -1 && index<4){
-					String[] input = (String[]) reader.readLine().split(" ");
+					String[] input = (String[]) reader.readLine().split(" ", 2);						
 					arr[index] = input;
 					type = decodeMessage(arr);
 					index++;
