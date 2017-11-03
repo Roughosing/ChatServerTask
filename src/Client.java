@@ -29,7 +29,6 @@ public class Client extends Thread {
 					type = decodeMessage(arr);
 					index++;
 				}
-				System.out.println(type);
 				switch (type) {
 				case 1:
 					// join/create chat room

@@ -17,9 +17,9 @@ public class ChatServer {
 		ServerSocket socket;
 		chatRooms = new ArrayList<ChatRoom>();
 		members = new ArrayList<Client>();
-		int port = Integer.parseInt(args[0]);
+		//int port = Integer.parseInt(args[0]);
 		try {
-			socket = new ServerSocket(port);
+			socket = new ServerSocket(22);
 			setServerIP(InetAddress.getLocalHost().getHostAddress());
 			setPort(socket.getLocalPort());
 			System.out.println("My IP : " + InetAddress.getLocalHost().getHostAddress());
