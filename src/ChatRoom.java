@@ -5,7 +5,6 @@ public class ChatRoom {
 	private int roomRef;
 	private String roomName;
 	private Map<Integer, Client> members;
-	private static int index;
 
 	ChatRoom(int ref, String name) {
 		this.roomRef = ref;
@@ -21,9 +20,8 @@ public class ChatRoom {
 		return roomName;
 	}
 
-	public void addMember(Client client) {
-		index++;
-		members.put(index, client);
+	public void addMember(Client client, int id) {
+		members.put(id, client);
 	}
 
 	public void removeMember(int id) {
