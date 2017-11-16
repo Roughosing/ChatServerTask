@@ -36,9 +36,10 @@ public class Client extends Thread {
 					id = ChatServer.getMembers().indexOf(this);
 					if (roomJoin == null)
 						roomJoin = ChatServer.createRoom(arr[0][1].trim());
-					roomJoin.addMember(this);
+					roomJoin.addMember(this, id);
 					joinedRooms.put(roomJoin.getId(), roomJoin);
 					clientName = arr[3][1].trim();
+					
 					sendJoinedMessage(roomJoin, index);
 					break;
 				case 2:
