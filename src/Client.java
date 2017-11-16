@@ -33,7 +33,7 @@ public class Client extends Thread {
 				case 1:
 					// join/create chat room
 					ChatRoom roomJoin = ChatServer.findRoom(arr[0][1].trim());
-					id = ChatServer.getMembers().indexOf(this);
+					id = ChatServer.getMembers().indexOf(this) + 1;
 					if (roomJoin == null)
 						roomJoin = ChatServer.createRoom(arr[0][1].trim());
 					roomJoin.addMember(this, id);
