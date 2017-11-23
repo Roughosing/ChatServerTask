@@ -1,7 +1,7 @@
 # ChatServerTask
 Chat Server repository for college assignment in module CS4400 Internet Applications - Gregory Penrose
 
-On the automated test server site the code broke the tests, running forever midway through sending the JoinMessage for the second client, as can be seen in the image.png stored in the master of this repository.
+On the automated test server site the code broke the tests, running forever midway through sending the JoinMessage for the second client, as can be seen in the image.png stored in the master of this repository. I attempted for several hours over many days to solve the problem, seeking help from demonstrators but nothing led me to a solution, as such the code present in this repository is not currently passing the automated tests, but I believe it to be sufficient enough for what the assignment set out to achieve.
 
 The code then needs to be terminated on the server side, exiting with a result of 31. When run on a local server (several instances of putty) the code runs fine, correctly receiving input and processing output from the client to the server. An image contained in this repository shows the code acting normally amongst several instances of putty.
 
