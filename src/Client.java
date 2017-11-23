@@ -11,10 +11,10 @@ public class Client extends Thread {
 	private BufferedReader reader;
 	private Map<Integer, ChatRoom> joinedRooms;
 
-	Client(Socket socket, BufferedReader reader, BufferedWriter output) {
+	Client(Socket socket) throws IOException {
 		this.socket = socket;
-		this.output = output;
-		this.reader = reader;
+		this.output = new BufferedWriter (new OutputStreamWriter(socket.getOutputStream()));;
+		this.reader = new BufferedReader (new InputStreamReader(socket.getInputStream()));;
 		joinedRooms = new HashMap<Integer, ChatRoom>();
 	}
 
@@ -39,7 +39,6 @@ public class Client extends Thread {
 					roomJoin.addMember(this, id);
 					joinedRooms.put(roomJoin.getId(), roomJoin);
 					clientName = arr[3][1].trim();
-					
 					sendJoinedMessage(roomJoin, index);
 					break;
 				case 2:
@@ -53,7 +52,7 @@ public class Client extends Thread {
 							roomLeave = room;
 						}
 					}
-					joinedRooms.remove(this.id);
+					joinedRooms.remove(id);
 					roomLeave.removeMember(this.id);
 					sendLeaveMessage(roomLeave, id);
 					break;
@@ -91,44 +90,44 @@ public class Client extends Thread {
 	}
 
 	private void sendHELO() throws IOException{
-		String HELOtext = "HELO BASE_TEST" 
-			+ "\nIP: " + InetAddress.getLocalHost().getHostAddress() 
-			+ "\nPort: " + socket.getLocalPort()  
-			+ "\nStudentID: 14316190";
+		String HELOtext = "\rHELO BASE_TEST" 
+			+ "\r\nIP: " + InetAddress.getLocalHost().getHostAddress() 
+			+ "\r\nPort: " + socket.getLocalPort()  
+			+ "\r\nStudentID: 14316190";
 		output.write(HELOtext);
 	}
 
 	private void sendErrorMessage() throws IOException {
-		String outputMessage = "ERROR_CODE: 0"
-			+ "\nERROR_DESCRIPTION: Error Occured\n\n";
+		String outputMessage = "\rERROR_CODE: 0"
+			+ "\r\nERROR_DESCRIPTION: Error Occured\r\n\n";
 		output.write(outputMessage);
 	}
 
 	private void sendLeaveMessage(ChatRoom roomLeave, int leaveId) throws IOException {
 		String outputMessage = "LEFT_CHATROOM: " + roomLeave.getId() 
-			+ "\nJOIN_ID: " + id
-			+ "\nCHAT: " + roomLeave.getId()
-			+ "\nCLIENT_NAME: " + clientName
-			+ "\nMESSAGE: " + clientName + " has left this chatroom.\n\n";
+			+ "\r\nJOIN_ID: " + id
+			+ "\r\nCHAT: " + roomLeave.getId()
+			+ "\r\nCLIENT_NAME: " + clientName
+			+ "\r\nMESSAGE: " + clientName + " has left this chatroom.\r\n\n";
 		output.write(outputMessage);
 	}
 
 	private void sendJoinedMessage(ChatRoom roomJoin, int joinId) throws IOException {
-		String outputMessage = "JOINED_CHATROOM: " + roomJoin.getName() 
-			+ "\nSERVER_IP: " + ChatServer.getServerIP()
-			+ "\nPORT: " + ChatServer.getPort() 
-			+ "\nROOM_REF: " + roomJoin.getId() 
-			+ "\nJOIN_ID: " + id
-			+ "\nCHAT: " + roomJoin.getId()
-			+ "\nCLIENT_NAME: " + clientName 
-			+ "\nMESSAGE: " + clientName + " has joined this chatroom.\n\n";
+		String outputMessage = "\rJOINED_CHATROOM: " + roomJoin.getName() 
+			+ "\r\nSERVER_IP: " + ChatServer.getServerIP()
+			+ "\r\nPORT: " + ChatServer.getPort() 
+			+ "\r\nROOM_REF: " + roomJoin.getId() 
+			+ "\r\nJOIN_ID: " + id
+			+ "\r\nCHAT: " + roomJoin.getId()
+			+ "\r\nCLIENT_NAME: " + clientName 
+			+ "\r\nMESSAGE: " + clientName + " has joined this chatroom.\r\n\n";
 		output.write(outputMessage);
 	}
 
 	private String castMessage(String[][] arr) {
-		String outputMessage = "CHAT: " + arr[0][1] 
-			+ "\nCLIENT_NAME: " + clientName
-			+ "\nMESSAGE: " + arr[3][1]  + "\n\n";
+		String outputMessage = "\rCHAT: " + arr[0][1] 
+			+ "\r\nCLIENT_NAME: " + clientName
+			+ "\r\nMESSAGE: " + arr[3][1]  + "\r\n\n";
 		return outputMessage;
 	}
 

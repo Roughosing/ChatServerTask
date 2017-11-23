@@ -17,9 +17,9 @@ public class ChatServer {
 		ServerSocket socket;
 		chatRooms = new ArrayList<ChatRoom>();
 		members = new ArrayList<Client>();
-		int port = Integer.parseInt(args[0]);
+		//int port = Integer.parseInt(args[0]);
 		try {
-			socket = new ServerSocket(port);
+			socket = new ServerSocket(22);
 			setServerIP(InetAddress.getLocalHost().getHostAddress());
 			setPort(socket.getLocalPort());
 			System.out.println("My IP : " + InetAddress.getLocalHost().getHostAddress());
@@ -27,9 +27,7 @@ public class ChatServer {
 			while(true){
 				Socket connect = socket.accept();
 				System.out.println("Client '" + connect.getInetAddress() + "' connected");
-				BufferedReader reader = new BufferedReader (new InputStreamReader(connect.getInputStream()));
-				BufferedWriter output = new BufferedWriter (new OutputStreamWriter(connect.getOutputStream()));
-				Client newClient = new Client(connect, reader, output);
+				Client newClient = new Client(connect);
 				newClient.start();
 				members.add(newClient); 	
 			}
